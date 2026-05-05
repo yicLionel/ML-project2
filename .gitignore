@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Environments
+.venv/
+venv/
+env/
+.cache/
+
+# Editor settings
+.idea/
+
+# Local data and generated artifacts
+data/raw/task1/*
+!data/raw/task1/.gitkeep
+data/raw/task2/*
+!data/raw/task2/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+outputs/models/*
+!outputs/models/.gitkeep
+outputs/submissions/*
+!outputs/submissions/.gitkeep
+outputs/*.csv
+outputs/*.json
+
+# System files
+.DS_Store
