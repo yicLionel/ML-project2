@@ -21,7 +21,7 @@ FEATURE_FILES = {
     "hog": "hog_pca.csv",
     "additional": "additional_features.csv",
     "engineered": "engineered_features.csv",
-    "deep_resnet18": "deep_resnet18_features.csv",
+    "deep_resnet50": "deep_resnet50_features.csv",
 }
 
 
@@ -139,7 +139,7 @@ def parse_args():
         "--features",
         nargs="+",
         default=["all"],
-        help="Feature sets to use: all, color, hog, additional, engineered, deep_resnet18.",
+        help="Feature sets to use: all, color, hog, additional, engineered, deep_resnet50.",
     )
     parser.add_argument(
         "--save-processed",

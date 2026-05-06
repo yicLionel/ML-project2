@@ -1,6 +1,6 @@
 """Extract ImageNet pretrained deep features for Task 1.
 
-This script uses a ResNet18 model pretrained on ImageNet as a generic feature
+This script uses a ResNet50 model pretrained on ImageNet as a generic feature
 extractor. It does not train or fine-tune the CNN on the project data. The saved
 features can then be used by our normal classifiers such as Logistic Regression
 or SVM.
@@ -15,7 +15,7 @@ import pandas as pd
 import torch
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
-from torchvision.models import ResNet18_Weights, resnet18
+from torchvision.models import ResNet50_Weights, resnet50
 
 
 # Add the project root to Python's search path.
@@ -60,13 +60,13 @@ def choose_device():
     return torch.device("cpu")
 
 
-def build_resnet18_feature_extractor(device):
-    """Load ImageNet pretrained ResNet18 without its final classifier."""
-    weights = ResNet18_Weights.DEFAULT
-    model = resnet18(weights=weights)
+def build_resnet50_feature_extractor(device):
+    """Load ImageNet pretrained ResNet50 without its final classifier."""
+    weights = ResNet50_Weights.DEFAULT
+    model = resnet50(weights=weights)
 
     # Remove the final classification layer. The model output becomes a
-    # 512-dimensional image representation instead of 1000 ImageNet classes.
+    # 2048-dimensional image representation instead of 1000 ImageNet classes.
     model.fc = torch.nn.Identity()
     model.eval()
     model.to(device)
@@ -86,7 +86,7 @@ def extract_features(model, data_loader, device):
             for image_id, feature_vector in zip(image_ids, features):
                 row = {"image_id": image_id}
                 for feature_index, value in enumerate(feature_vector):
-                    row[f"deep_resnet18_{feature_index}"] = value
+                    row[f"deep_resnet50_{feature_index}"] = value
                 rows.append(row)
 
             # Print progress occasionally because feature extraction can take a
@@ -99,7 +99,7 @@ def extract_features(model, data_loader, device):
 
 
 def build_deep_feature_table(task, batch_size):
-    """Extract ResNet18 features for all train and test images."""
+    """Extract ResNet50 features for all train and test images."""
     task_dir = DATA_ROOT / "raw" / task
     train_metadata = read_csv_checked(task_dir / "train_metadata.csv")
     test_metadata = read_csv_checked(task_dir / "test_metadata.csv")
@@ -108,7 +108,7 @@ def build_deep_feature_table(task, batch_size):
     device = choose_device()
     print(f"Using device: {device}")
 
-    model, transform = build_resnet18_feature_extractor(device)
+    model, transform = build_resnet50_feature_extractor(device)
     dataset = ImageMetadataDataset(task_dir, all_metadata, transform)
     data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
 
@@ -117,7 +117,7 @@ def build_deep_feature_table(task, batch_size):
 
 def parse_args():
     """Read command line arguments."""
-    parser = argparse.ArgumentParser(description="Extract ImageNet ResNet18 features.")
+    parser = argparse.ArgumentParser(description="Extract ImageNet ResNet50 features.")
     parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
     parser.add_argument("--batch-size", type=int, default=32, help="Images per batch.")
     return parser.parse_args()
@@ -127,7 +127,7 @@ def main():
     """Extract deep features and save them as a CSV file."""
     args = parse_args()
     task_dir = DATA_ROOT / "raw" / args.task
-    output_path = task_dir / "deep_resnet18_features.csv"
+    output_path = task_dir / "deep_resnet50_features.csv"
 
     features = build_deep_feature_table(args.task, args.batch_size)
     features.to_csv(output_path, index=False)

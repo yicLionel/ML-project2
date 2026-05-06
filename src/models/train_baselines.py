@@ -159,13 +159,12 @@ def parse_args():
     """Read command line arguments."""
     parser = argparse.ArgumentParser(description="Train Task 1 baseline models.")
     parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
-    # By default, use all provided features: colour histogram, HOG PCA, and
-    # additional hand-crafted features.
+    # By default, use the strongest feature combination found so far.
     parser.add_argument(
         "--features",
         nargs="+",
-        default=["color", "hog", "additional","deep_resnet18"],
-        help="Feature sets to use: all, color, hog, additional, engineered, deep_resnet18.",
+        default=["color", "hog", "additional", "deep_resnet50"],
+        help="Feature sets to use: all, color, hog, additional, engineered, deep_resnet50.",
     )
     parser.add_argument("--test-size", type=float, default=0.2, help="Validation split size.")
     parser.add_argument("--seed", type=int, default=42, help="Random seed.")

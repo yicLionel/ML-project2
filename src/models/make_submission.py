@@ -2,6 +2,9 @@
 
 Kaggle requires exactly two columns:
 image_id,class_id
+
+The current default setting uses the best validation setup so far:
+Logistic Regression and colour/HOG/additional/ResNet50 features.
 """
 
 import argparse
@@ -23,6 +26,7 @@ from src.models.train_baselines import build_models
 
 
 OUTPUT_ROOT = PROJECT_ROOT / "outputs"
+DEFAULT_FEATURES = ["color", "hog", "additional", "deep_resnet50"]
 
 
 def get_feature_label(feature_names):
@@ -67,6 +71,13 @@ def save_submission(task_data, predictions, task, model_name, feature_names):
         }
     )
 
+    # Check the output format before writing the file. This helps avoid
+    # accidentally submitting extra columns to Kaggle.
+    if list(submission.columns) != ["image_id", "class_id"]:
+        raise ValueError("Submission must contain exactly image_id and class_id columns")
+    if len(submission) != len(task_data["test_metadata"]):
+        raise ValueError("Submission row count does not match the number of test images")
+
     feature_label = get_feature_label(feature_names)
     output_path = output_dir / f"{task}_{model_name}_{feature_label}_submission.csv"
     submission.to_csv(output_path, index=False)
@@ -90,19 +101,19 @@ def parse_args():
     """Read command line arguments."""
     parser = argparse.ArgumentParser(description="Create a Task 1 Kaggle submission file.")
     parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
-    # The default is Logistic Regression because it currently has the best
-    # Kaggle score among our submitted Task 1 models.
+    # The default is the best validation model found so far.
     parser.add_argument(
         "--model",
         default="logistic_regression",
         help="Model name from train_baselines.py, such as logistic_regression or svm_rbf.",
     )
-    # By default, use all provided CSV features.
+    # By default, use the best feature combination found so far. This excludes
+    # engineered_features.csv because it did not improve validation results.
     parser.add_argument(
         "--features",
         nargs="+",
-        default=["all"],
-        help="Feature sets to use: all, color, hog, additional, engineered, deep_resnet18.",
+        default=DEFAULT_FEATURES,
+        help="Feature sets to use: all, color, hog, additional, engineered, deep_resnet50.",
     )
     parser.add_argument("--seed", type=int, default=42, help="Random seed.")
     return parser.parse_args()
