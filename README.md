@@ -2,42 +2,76 @@
 
 Coarse-to-fine-grained image classification project for COMP30027 Machine Learning.
 
+This repository currently focuses on Task 1: coarse-grained animal classification.
+
 ## Project Layout
 
 ```text
 data/
   raw/
-    task1/              # Original Task 1 animal classification files
-    task2/              # Original Task 2 bird classification files
-  processed/            # Cleaned or merged feature tables
-notebooks/              # Exploration and one-off experiments
+    task1/              # Original Task 1 files and generated feature CSVs
+    task2/              # Reserved for Task 2 files
+  processed/            # Optional merged feature tables for checking
 src/
-  data/                 # Data loading and dataset utilities
-  features/             # Feature engineering and preprocessing
-  models/               # Training and prediction scripts
-  evaluation/           # Metrics, validation, confusion matrices
+  data/                 # Data loading and feature merging
+  features/             # Feature extraction scripts
+  models/               # Training, tuning, and submission scripts
 outputs/
+  results/              # Validation and cross-validation result CSVs
   submissions/          # Kaggle submission CSV files
-  models/               # Saved trained models
-  figures/              # Plots for analysis and report
-report/                 # Report draft, figures, references
+  models/               # Saved fitted models
+report/                 # Report draft and report assets
 ```
 
-## Suggested Workflow
+## Main Workflow
 
-1. Place the provided Task 1 files in `data/raw/task1/`.
-2. Place the provided Task 2 files in `data/raw/task2/`.
-3. Build baseline models using the provided CSV features.
-4. Save validation results, confusion matrices, and Kaggle submissions under `outputs/`.
-5. Keep report-ready figures in `outputs/figures/` or `report/`.
+The normal Task 1 workflow is:
 
-## Baseline
+```text
+prepare raw data
+  -> extract deep features
+  -> tune linear models with cross-validation
+  -> run baseline validation
+  -> create Kaggle submission
+```
 
-Run a first Task 1 baseline from the provided CSV features:
+## Commands
+
+Extract ImageNet EfficientNet-V2-M features:
 
 ```bash
-python3 -m src.models.baseline --task task1
+.venv/bin/python src/features/extract_deep_features.py --task task1 --model efficientnet_v2_m --batch-size 8
 ```
 
-This writes validation scores, per-model classification reports, confusion matrices,
-the best fitted model, and a submission CSV under `outputs/`.
+Tune Logistic Regression and Linear SVM:
+
+```bash
+.venv/bin/python src/models/tune_linear_models.py --task task1 --features color hog additional deep_efficientnet_v2_m --folds 5
+```
+
+Run baseline validation:
+
+```bash
+.venv/bin/python src/models/train_baselines.py
+```
+
+Create the default Kaggle submission:
+
+```bash
+.venv/bin/python src/models/make_submission.py
+```
+
+The current default feature set is:
+
+```text
+color + hog + additional + deep_efficientnet_v2_m
+```
+
+The current default submission model is RBF SVM with EfficientNet-V2-M features.
+The tuned Logistic Regression submission is also useful as a Kaggle comparison.
+
+## Notes
+
+- `src/data/load_data.py` is normally called by the model scripts. It does not need to be run directly.
+- `src/features/extract_image_features.py` contains earlier hand-crafted feature engineering experiments.
+- The pretrained CNN is used only as a generic ImageNet feature extractor. It is not trained or fine-tuned on CIFAR-10, CUB-200-2011, or the project data.

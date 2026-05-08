@@ -13,6 +13,7 @@ import pandas as pd
 from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score
+from sklearn.multiclass import OneVsRestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -37,6 +38,30 @@ def get_feature_label(feature_names):
     return "_".join(feature_names)
 
 
+def get_deep_feature_names(feature_names):
+    """Return deep feature names from the selected feature list."""
+    return [name for name in feature_names if name.startswith("deep_")]
+
+
+def print_experiment_summary(task, feature_names, task_data):
+    """Print the main settings before model training starts."""
+    deep_features = get_deep_feature_names(feature_names)
+    deep_feature_text = ", ".join(deep_features) if deep_features else "none"
+
+    # This makes VSCode runs easier to check because command line arguments are
+    # not always visible in the terminal output.
+    print("Experiment setup")
+    print(f"Task: {task}")
+    print(f"Features: {', '.join(feature_names)}")
+    print(f"Deep feature extractor: {deep_feature_text}")
+    print(
+        f"Training data: {task_data['X_train'].shape[0]} rows, "
+        f"{task_data['X_train'].shape[1]} features"
+    )
+    print(f"Test data: {task_data['X_test'].shape[0]} rows")
+    print()
+
+
 def build_models(random_state):
     """Create the baseline models used in the first experiment."""
     # Models based on distances, margins, or feature weights need scaling
@@ -47,42 +72,63 @@ def build_models(random_state):
                 ("scaler", StandardScaler()),
                 (
                     "model",
-                    LogisticRegression(max_iter=2000, random_state=random_state),
+                    # liblinear is fast for this feature size, so we wrap it in
+                    # one-vs-rest to handle the 10-class task.
+                    OneVsRestClassifier(
+                        LogisticRegression(
+                            solver="liblinear",
+                            max_iter=2000,
+                            C=0.03,
+                            random_state=random_state,
+                        )
+                    ),
                 ),
             ]
         ),
         "linear_svm": Pipeline(
             [
                 ("scaler", StandardScaler()),
-                ("model", LinearSVC(C=0.01, max_iter=5000, random_state=random_state)),
+                (
+                    "model",
+                    # dual=False is faster when the number of samples is larger
+                    # than the number of features after scaling.
+                    LinearSVC(
+                        C=0.001,
+                        dual=False,
+                        max_iter=5000,
+                        random_state=random_state,
+                    ),
+                ),
             ]
         ),
         "svm_rbf": Pipeline(
             [
                 ("scaler", StandardScaler()),
-                ("model", SVC(kernel="rbf", C=20, gamma="scale")),
+                # RBF SVM is kept as a non-linear comparison model.
+                ("model", SVC(kernel="rbf", C=25, gamma="scale")),
             ]
         ),
         "knn": Pipeline(
             [
                 ("scaler", StandardScaler()),
-                ("model", KNeighborsClassifier(n_neighbors=9)),
+                ("model", KNeighborsClassifier(n_neighbors=7)),
             ]
         ),
         "gaussian_nb": Pipeline(
             [
                 ("scaler", StandardScaler()),
+                # Naive Bayes is a simple probabilistic baseline.
                 ("model", GaussianNB()),
             ]
         ),
         # Tree-based models do not require scaling because they split features
         # by thresholds rather than using distances or dot products.
         "random_forest": RandomForestClassifier(
-            n_estimators=300,
+            n_estimators=500,
             random_state=random_state,
         ),
         "extra_trees": ExtraTreesClassifier(
-            n_estimators=300,
+            n_estimators=500,
             random_state=random_state,
         ),
     }
@@ -105,6 +151,7 @@ def evaluate_model(model, X_train, X_valid, y_train, y_valid):
 def run_baselines(task, feature_names, test_size, random_state):
     """Load data, split train/validation data, and evaluate all baselines."""
     task_data = load_task_data(task=task, feature_names=feature_names)
+    print_experiment_summary(task, feature_names, task_data)
 
     # Use a stratified split so each class keeps a similar proportion in the
     # training and validation sets.
@@ -159,12 +206,13 @@ def parse_args():
     """Read command line arguments."""
     parser = argparse.ArgumentParser(description="Train Task 1 baseline models.")
     parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
-    # By default, use the strongest feature combination found so far.
+    # Default to the current strongest feature combination. Use --features all
+    # only for broad comparison runs because it includes every registered file.
     parser.add_argument(
         "--features",
         nargs="+",
-        default=["color", "hog", "additional", "deep_resnet50"],
-        help="Feature sets to use: all, color, hog, additional, engineered, deep_resnet50.",
+        default=["color", "hog", "additional", "deep_efficientnet_v2_m"],
+        help="Feature sets to use: all, color, hog, additional, deep_resnet50, deep_efficientnet_v2_s, deep_efficientnet_v2_m.",
     )
     parser.add_argument("--test-size", type=float, default=0.2, help="Validation split size.")
     parser.add_argument("--seed", type=int, default=42, help="Random seed.")

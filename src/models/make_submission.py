@@ -3,8 +3,8 @@
 Kaggle requires exactly two columns:
 image_id,class_id
 
-The current default setting uses the best validation setup so far:
-Logistic Regression and colour/HOG/additional/ResNet50 features.
+The current default setting follows the strongest recent holdout result:
+RBF SVM and colour/HOG/additional/EfficientNet-V2-M features.
 """
 
 import argparse
@@ -26,7 +26,7 @@ from src.models.train_baselines import build_models
 
 
 OUTPUT_ROOT = PROJECT_ROOT / "outputs"
-DEFAULT_FEATURES = ["color", "hog", "additional", "deep_resnet50"]
+DEFAULT_FEATURES = ["color", "hog", "additional", "deep_efficientnet_v2_m"]
 
 
 def get_feature_label(feature_names):
@@ -50,7 +50,8 @@ def train_model_for_submission(task, model_name, feature_names, random_state):
 
     model = models[model_name]
 
-    # For Kaggle, train on all labelled training data before predicting test data.
+    # For Kaggle, train on all labelled training data before predicting test
+    # data. Validation is handled separately in train_baselines.py.
     model.fit(task_data["X_train"], task_data["y_train"])
 
     return model, task_data
@@ -101,19 +102,19 @@ def parse_args():
     """Read command line arguments."""
     parser = argparse.ArgumentParser(description="Create a Task 1 Kaggle submission file.")
     parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
-    # The default is the best validation model found so far.
+    # The default follows the strongest recent holdout result. Use
+    # --model logistic_regression for the best 5-fold CV linear model.
     parser.add_argument(
         "--model",
-        default="logistic_regression",
+        default="svm_rbf",
         help="Model name from train_baselines.py, such as logistic_regression or svm_rbf.",
     )
-    # By default, use the best feature combination found so far. This excludes
-    # engineered_features.csv because it did not improve validation results.
+    # By default, use the best registered feature combination found so far.
     parser.add_argument(
         "--features",
         nargs="+",
         default=DEFAULT_FEATURES,
-        help="Feature sets to use: all, color, hog, additional, engineered, deep_resnet50.",
+        help="Feature sets to use: all, color, hog, additional, deep_resnet50, deep_efficientnet_v2_s, deep_efficientnet_v2_m.",
     )
     parser.add_argument("--seed", type=int, default=42, help="Random seed.")
     return parser.parse_args()

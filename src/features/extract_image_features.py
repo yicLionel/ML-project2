@@ -1,8 +1,8 @@
 """Extract extra image features for Task 1.
 
 The provided CSV features are useful, but they may miss some colour and spatial
-information from the raw images. This script creates another feature file named
-engineered_features.csv that can be merged with the original provided features.
+information from the raw images. This script creates an optional feature file
+named engineered_features.csv for earlier hand-crafted feature experiments.
 """
 
 import argparse

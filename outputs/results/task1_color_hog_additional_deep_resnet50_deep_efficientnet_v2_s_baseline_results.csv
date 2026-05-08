@@ -1,0 +1,8 @@
+task,model,features,valid_accuracy,valid_macro_f1
+task1,logistic_regression,color+hog+additional+deep_resnet50+deep_efficientnet_v2_s,0.9026666666666666,0.9016352456120662
+task1,linear_svm,color+hog+additional+deep_resnet50+deep_efficientnet_v2_s,0.8986666666666666,0.8976593748453194
+task1,svm_rbf,color+hog+additional+deep_resnet50+deep_efficientnet_v2_s,0.9013333333333333,0.9022538222837522
+task1,knn,color+hog+additional+deep_resnet50+deep_efficientnet_v2_s,0.8626666666666667,0.8618407219262725
+task1,gaussian_nb,color+hog+additional+deep_resnet50+deep_efficientnet_v2_s,0.852,0.8548124913054916
+task1,random_forest,color+hog+additional+deep_resnet50+deep_efficientnet_v2_s,0.904,0.9039921051208422
+task1,extra_trees,color+hog+additional+deep_resnet50+deep_efficientnet_v2_s,0.9,0.9000126332899665

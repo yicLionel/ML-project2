@@ -15,13 +15,15 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_ROOT = PROJECT_ROOT / "data"
 
-# Short names used by command line arguments.
+# Short names used by command line arguments and model scripts.
+# Each key maps to one feature CSV under data/raw/<task>/.
 FEATURE_FILES = {
     "color": "color_histogram.csv",
     "hog": "hog_pca.csv",
     "additional": "additional_features.csv",
-    "engineered": "engineered_features.csv",
     "deep_resnet50": "deep_resnet50_features.csv",
+    "deep_efficientnet_v2_s": "deep_efficientnet_v2_s_features.csv",
+    "deep_efficientnet_v2_m": "deep_efficientnet_v2_m_features.csv",
 }
 
 
@@ -34,9 +36,12 @@ def read_csv_checked(file_path):
 
 def choose_feature_sets(feature_names):
     """Convert 'all' into the full list of provided feature sets."""
+    # "all" is convenient for quick experiments, but final experiments can pass
+    # an explicit list such as color hog additional deep_efficientnet_v2_m.
     if feature_names == ["all"]:
         return list(FEATURE_FILES.keys())
 
+    # Check names early so spelling mistakes do not silently drop features.
     for name in feature_names:
         if name not in FEATURE_FILES:
             valid_names = ", ".join(FEATURE_FILES.keys())
@@ -54,7 +59,8 @@ def load_feature_table(task_dir, feature_names):
         file_name = FEATURE_FILES[feature_name]
         feature_table = read_csv_checked(task_dir / file_name)
 
-        # Every feature table should have exactly one row for each image.
+        # Every feature table should have exactly one row for each image, so
+        # image_id can be used as a safe merge key.
         if "image_id" not in feature_table.columns:
             raise ValueError(f"{file_name} does not contain image_id")
         if feature_table["image_id"].duplicated().any():
@@ -63,6 +69,8 @@ def load_feature_table(task_dir, feature_names):
         if merged_features is None:
             merged_features = feature_table
         else:
+            # Inner merge keeps only images that have every selected feature.
+            # The later missing-value check catches unexpected mismatches.
             merged_features = merged_features.merge(feature_table, on="image_id", how="inner")
 
     return merged_features
@@ -83,7 +91,8 @@ def load_task_data(task="task1", feature_names=None):
     test_metadata = read_csv_checked(task_dir / "test_metadata.csv")
     feature_table = load_feature_table(task_dir, feature_names)
 
-    # Join labels/paths with numeric features.
+    # Join labels/paths with numeric features. The test metadata has no labels,
+    # but it uses the same image_id key as the feature files.
     train_data = train_metadata.merge(feature_table, on="image_id", how="left")
     test_data = test_metadata.merge(feature_table, on="image_id", how="left")
 
@@ -96,6 +105,7 @@ def load_task_data(task="task1", feature_names=None):
     metadata_columns = ["image_id", "image_path", "class_id", "class_name"]
     input_columns = [col for col in train_data.columns if col not in metadata_columns]
 
+    # Keep class names for readable reports and confusion-matrix labels.
     class_names = (
         train_metadata[["class_id", "class_name"]]
         .drop_duplicates()
@@ -120,6 +130,8 @@ def save_processed_tables(task_data, task="task1"):
     output_dir = DATA_ROOT / "processed"
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    # These files are optional debugging outputs. The training scripts load
+    # features directly from data/raw instead of depending on processed files.
     train_output = task_data["X_train"].copy()
     train_output.insert(0, "class_id", task_data["y_train"].values)
     train_output.insert(0, "image_id", task_data["train_metadata"]["image_id"].values)
@@ -139,7 +151,7 @@ def parse_args():
         "--features",
         nargs="+",
         default=["all"],
-        help="Feature sets to use: all, color, hog, additional, engineered, deep_resnet50.",
+        help="Feature sets to use: all, color, hog, additional, deep_resnet50, deep_efficientnet_v2_s, deep_efficientnet_v2_m.",
     )
     parser.add_argument(
         "--save-processed",
