@@ -14,9 +14,11 @@ import pandas as pd
 import torch
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
-from torchvision.models import EfficientNet_V2_M_Weights, EfficientNet_V2_S_Weights
-from torchvision.models import ResNet50_Weights
-from torchvision.models import efficientnet_v2_m, efficientnet_v2_s, resnet50
+from torchvision.models import EfficientNet_V2_L_Weights, EfficientNet_V2_M_Weights
+from torchvision.models import EfficientNet_V2_S_Weights
+from torchvision.models import ResNet50_Weights, ResNet152_Weights
+from torchvision.models import efficientnet_v2_l, efficientnet_v2_m, efficientnet_v2_s
+from torchvision.models import resnet50, resnet152
 
 
 # Add the project root to Python's search path.
@@ -41,6 +43,12 @@ MODEL_CONFIGS = {
         "feature_prefix": "deep_resnet50",
         "output_file": "deep_resnet50_features.csv",
     },
+    "resnet152": {
+        "builder": resnet152,
+        "weights": ResNet152_Weights.DEFAULT,
+        "feature_prefix": "deep_resnet152",
+        "output_file": "deep_resnet152_features.csv",
+    },
     "efficientnet_v2_s": {
         "builder": efficientnet_v2_s,
         "weights": EfficientNet_V2_S_Weights.DEFAULT,
@@ -52,6 +60,12 @@ MODEL_CONFIGS = {
         "weights": EfficientNet_V2_M_Weights.DEFAULT,
         "feature_prefix": "deep_efficientnet_v2_m",
         "output_file": "deep_efficientnet_v2_m_features.csv",
+    },
+    "efficientnet_v2_l": {
+        "builder": efficientnet_v2_l,
+        "weights": EfficientNet_V2_L_Weights.DEFAULT,
+        "feature_prefix": "deep_efficientnet_v2_l",
+        "output_file": "deep_efficientnet_v2_l_features.csv",
     },
 }
 
@@ -101,9 +115,9 @@ def build_feature_extractor(model_name, device):
 
     # Remove the final classification layer. This gives us image features
     # instead of ImageNet class scores.
-    if model_name == "resnet50":
+    if model_name in ["resnet50", "resnet152"]:
         model.fc = torch.nn.Identity()
-    elif model_name in ["efficientnet_v2_s", "efficientnet_v2_m"]:
+    elif model_name in ["efficientnet_v2_s", "efficientnet_v2_m", "efficientnet_v2_l"]:
         model.classifier = torch.nn.Identity()
 
     # Evaluation mode disables training behaviour such as dropout updates.
@@ -166,7 +180,7 @@ def parse_args():
     parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
     parser.add_argument(
         "--model",
-        default="efficientnet_v2_m",
+        default="efficientnet_v2_l",
         choices=list(MODEL_CONFIGS.keys()),
         help="ImageNet pretrained model to use.",
     )

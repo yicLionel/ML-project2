@@ -1,0 +1,8 @@
+task,model,features,valid_accuracy,valid_macro_f1
+task1,logistic_regression,additional+deep_efficientnet_v2_m,0.924,0.9235373976413592
+task1,linear_svm,additional+deep_efficientnet_v2_m,0.9213333333333333,0.920909220482687
+task1,svm_rbf,additional+deep_efficientnet_v2_m,0.928,0.9279290684568569
+task1,knn,additional+deep_efficientnet_v2_m,0.908,0.9085563973823074
+task1,gaussian_nb,additional+deep_efficientnet_v2_m,0.9026666666666666,0.9032452322760831
+task1,random_forest,additional+deep_efficientnet_v2_m,0.9253333333333333,0.9250936529197787
+task1,extra_trees,additional+deep_efficientnet_v2_m,0.916,0.9161445366005555

@@ -35,40 +35,6 @@ prepare raw data
   -> create Kaggle submission
 ```
 
-## Commands
-
-Extract ImageNet EfficientNet-V2-M features:
-
-```bash
-.venv/bin/python src/features/extract_deep_features.py --task task1 --model efficientnet_v2_m --batch-size 8
-```
-
-Tune Logistic Regression and Linear SVM:
-
-```bash
-.venv/bin/python src/models/tune_linear_models.py --task task1 --features color hog additional deep_efficientnet_v2_m --folds 5
-```
-
-Run baseline validation:
-
-```bash
-.venv/bin/python src/models/train_baselines.py
-```
-
-Create the default Kaggle submission:
-
-```bash
-.venv/bin/python src/models/make_submission.py
-```
-
-The current default feature set is:
-
-```text
-color + hog + additional + deep_efficientnet_v2_m
-```
-
-The current default submission model is RBF SVM with EfficientNet-V2-M features.
-The tuned Logistic Regression submission is also useful as a Kaggle comparison.
 
 ## Notes
 

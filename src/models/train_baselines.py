@@ -211,8 +211,12 @@ def parse_args():
     parser.add_argument(
         "--features",
         nargs="+",
-        default=["color", "hog", "additional", "deep_efficientnet_v2_m"],
-        help="Feature sets to use: all, color, hog, additional, deep_resnet50, deep_efficientnet_v2_s, deep_efficientnet_v2_m.",
+        default=["color", "hog", "additional","deep_efficientnet_v2_l"],
+        help=(
+            "Feature sets to use: all, color, hog, additional, deep_resnet50, "
+            "deep_resnet152, deep_efficientnet_v2_s, deep_efficientnet_v2_m, "
+            "deep_efficientnet_v2_l."
+        ),
     )
     parser.add_argument("--test-size", type=float, default=0.2, help="Validation split size.")
     parser.add_argument("--seed", type=int, default=42, help="Random seed.")

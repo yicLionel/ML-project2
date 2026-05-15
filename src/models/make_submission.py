@@ -3,8 +3,7 @@
 Kaggle requires exactly two columns:
 image_id,class_id
 
-The current default setting follows the strongest recent holdout result:
-RBF SVM and colour/HOG/additional/EfficientNet-V2-M features.
+
 """
 
 import argparse
@@ -26,7 +25,7 @@ from src.models.train_baselines import build_models
 
 
 OUTPUT_ROOT = PROJECT_ROOT / "outputs"
-DEFAULT_FEATURES = ["color", "hog", "additional", "deep_efficientnet_v2_m"]
+DEFAULT_FEATURES = ["color", "hog", "additional", "deep_efficientnet_v2_l"]
 
 
 def get_feature_label(feature_names):
@@ -106,7 +105,7 @@ def parse_args():
     # --model logistic_regression for the best 5-fold CV linear model.
     parser.add_argument(
         "--model",
-        default="svm_rbf",
+        default="logistic_regression",
         help="Model name from train_baselines.py, such as logistic_regression or svm_rbf.",
     )
     # By default, use the best registered feature combination found so far.
@@ -114,7 +113,11 @@ def parse_args():
         "--features",
         nargs="+",
         default=DEFAULT_FEATURES,
-        help="Feature sets to use: all, color, hog, additional, deep_resnet50, deep_efficientnet_v2_s, deep_efficientnet_v2_m.",
+        help=(
+            "Feature sets to use: all, color, hog, additional, deep_resnet50, "
+            "deep_resnet152, deep_efficientnet_v2_s, deep_efficientnet_v2_m, "
+            "deep_efficientnet_v2_l."
+        ),
     )
     parser.add_argument("--seed", type=int, default=42, help="Random seed.")
     return parser.parse_args()
