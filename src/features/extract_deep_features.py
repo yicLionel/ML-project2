@@ -1,4 +1,4 @@
-"""Extract ImageNet pretrained deep features for Task 1.
+"""Extract ImageNet pretrained deep features for the project tasks.
 
 This script uses an ImageNet pretrained CNN as a generic feature extractor. It
 does not train or fine-tune the CNN on the project data. The saved features can
@@ -177,10 +177,10 @@ def build_deep_feature_table(task, model_name, batch_size):
 def parse_args():
     """Read command line arguments."""
     parser = argparse.ArgumentParser(description="Extract ImageNet pretrained CNN features.")
-    parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
+    parser.add_argument("--task", default="task2", help="Task folder under data/raw.")
     parser.add_argument(
         "--model",
-        default="efficientnet_v2_l",
+        default="resnet152",
         choices=list(MODEL_CONFIGS.keys()),
         help="ImageNet pretrained model to use.",
     )

@@ -1,4 +1,4 @@
-"""Load Task 1 metadata and provided feature files.
+"""Load task metadata and provided feature files.
 
 This script combines the metadata CSV files with the provided feature CSV files.
 It can be imported by training scripts, or run directly to save merged feature

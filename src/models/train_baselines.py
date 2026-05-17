@@ -1,4 +1,4 @@
-"""Train simple baseline models for Task 1.
+"""Train simple baseline models for the project tasks.
 
 The goal of this script is to get reliable first results, not to find the best
 possible model yet. These results will be useful as a starting point for the
@@ -124,6 +124,9 @@ def build_models(random_state):
         # Tree-based models do not require scaling because they split features
         # by thresholds rather than using distances or dot products.
         "random_forest": RandomForestClassifier(
+            max_depth=10,
+            min_samples_leaf=1,
+            max_features="log2",
             n_estimators=500,
             random_state=random_state,
         ),
@@ -204,14 +207,14 @@ def save_results(results, task, feature_names):
 
 def parse_args():
     """Read command line arguments."""
-    parser = argparse.ArgumentParser(description="Train Task 1 baseline models.")
-    parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
+    parser = argparse.ArgumentParser(description="Train baseline models for Task 1 or Task 2.")
+    parser.add_argument("--task", default="task2", help="Task folder under data/raw.")
     # Default to the current strongest feature combination. Use --features all
     # only for broad comparison runs because it includes every registered file.
     parser.add_argument(
         "--features",
         nargs="+",
-        default=["color", "hog", "additional","deep_efficientnet_v2_l"],
+        default=["deep_resnet152", "deep_efficientnet_v2_l"],
         help=(
             "Feature sets to use: all, color, hog, additional, deep_resnet50, "
             "deep_resnet152, deep_efficientnet_v2_s, deep_efficientnet_v2_m, "

@@ -1,4 +1,4 @@
-"""Create a Kaggle submission file for Task 1.
+"""Create a Kaggle submission file for Task 1 or Task 2.
 
 Kaggle requires exactly two columns:
 image_id,class_id
@@ -25,7 +25,6 @@ from src.models.train_baselines import build_models
 
 
 OUTPUT_ROOT = PROJECT_ROOT / "outputs"
-DEFAULT_FEATURES = ["color", "hog", "additional", "deep_efficientnet_v2_l"]
 
 
 def get_feature_label(feature_names):
@@ -99,20 +98,17 @@ def save_model(model, task, model_name, feature_names):
 
 def parse_args():
     """Read command line arguments."""
-    parser = argparse.ArgumentParser(description="Create a Task 1 Kaggle submission file.")
-    parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
-    # The default follows the strongest recent holdout result. Use
-    # --model logistic_regression for the best 5-fold CV linear model.
+    parser = argparse.ArgumentParser(description="Create a Kaggle submission file for Task 1 or Task 2.")
+    parser.add_argument("--task", default="task2", help="Task folder under data/raw.")
     parser.add_argument(
         "--model",
         default="logistic_regression",
         help="Model name from train_baselines.py, such as logistic_regression or svm_rbf.",
     )
-    # By default, use the best registered feature combination found so far.
     parser.add_argument(
         "--features",
         nargs="+",
-        default=DEFAULT_FEATURES,
+        default=["deep_resnet152", "deep_efficientnet_v2_l"],
         help=(
             "Feature sets to use: all, color, hog, additional, deep_resnet50, "
             "deep_resnet152, deep_efficientnet_v2_s, deep_efficientnet_v2_m, "
