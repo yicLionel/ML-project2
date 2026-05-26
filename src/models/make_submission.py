@@ -102,17 +102,17 @@ def parse_args():
     parser.add_argument("--task", default="task2", help="Task folder under data/raw.")
     parser.add_argument(
         "--model",
-        default="logistic_regression",
+        default="random_forest",
         help="Model name from train_baselines.py, such as logistic_regression or svm_rbf.",
     )
     parser.add_argument(
         "--features",
         nargs="+",
-        default=["deep_resnet152", "deep_efficientnet_v2_l"],
+        default=["hog", "additional", "deep_efficientnet_v2_l"],
         help=(
             "Feature sets to use: all, color, hog, additional, deep_resnet50, "
             "deep_resnet152, deep_efficientnet_v2_s, deep_efficientnet_v2_m, "
-            "deep_efficientnet_v2_l."
+            "deep_efficientnet_v2_l, engineered."
         ),
     )
     parser.add_argument("--seed", type=int, default=42, help="Random seed.")

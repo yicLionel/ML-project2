@@ -105,7 +105,7 @@ def build_models(random_state):
             [
                 ("scaler", StandardScaler()),
                 # RBF SVM is kept as a non-linear comparison model.
-                ("model", SVC(kernel="rbf", C=25, gamma="scale")),
+                ("model", SVC(kernel="rbf", C=3, gamma=0.0003)),
             ]
         ),
         "knn": Pipeline(
@@ -124,15 +124,18 @@ def build_models(random_state):
         # Tree-based models do not require scaling because they split features
         # by thresholds rather than using distances or dot products.
         "random_forest": RandomForestClassifier(
+            n_estimators=700,
             max_depth=10,
             min_samples_leaf=1,
-            max_features="log2",
-            n_estimators=500,
-            random_state=random_state,
+            max_features="sqrt",
+            random_state=random_state
         ),
         "extra_trees": ExtraTreesClassifier(
-            n_estimators=500,
-            random_state=random_state,
+            n_estimators=700,
+            max_depth=15,
+            min_samples_leaf=1,
+            max_features="sqrt",
+            random_state=random_state
         ),
     }
     return models
@@ -214,11 +217,11 @@ def parse_args():
     parser.add_argument(
         "--features",
         nargs="+",
-        default=["deep_resnet152", "deep_efficientnet_v2_l"],
+        default=["hog", "additional", "deep_efficientnet_v2_l"],
         help=(
             "Feature sets to use: all, color, hog, additional, deep_resnet50, "
             "deep_resnet152, deep_efficientnet_v2_s, deep_efficientnet_v2_m, "
-            "deep_efficientnet_v2_l."
+            "deep_efficientnet_v2_l, engineered."
         ),
     )
     parser.add_argument("--test-size", type=float, default=0.2, help="Validation split size.")

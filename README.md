@@ -40,10 +40,12 @@ Task 2 first-pass commands:
 
 ```bash
 .venv/bin/python src/features/extract_deep_features.py --task task2 --model efficientnet_v2_m --batch-size 8
+.venv/bin/python src/features/extract_image_features.py --task task2
 .venv/bin/python src/data/load_data.py --task task2 --features hog additional deep_efficientnet_v2_m
 .venv/bin/python src/models/train_baselines.py --task task2 --features hog additional deep_efficientnet_v2_m
 .venv/bin/python src/models/tune_linear_models.py --task task2 --features hog additional deep_efficientnet_v2_m --folds 5
 .venv/bin/python src/models/tune_random_forest.py --task task2 --features hog additional deep_efficientnet_v2_m --folds 5
+.venv/bin/python src/models/tune_candidate_models.py --task task2 --features hog additional deep_efficientnet_v2_l --folds 5
 .venv/bin/python src/models/make_submission.py --task task2 --model logistic_regression --features hog additional deep_efficientnet_v2_m
 ```
 

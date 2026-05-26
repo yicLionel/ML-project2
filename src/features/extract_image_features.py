@@ -1,8 +1,8 @@
-"""Extract extra image features for Task 1.
+"""Extract engineered image features for the project tasks.
 
-The provided CSV features are useful, but they may miss some colour and spatial
-information from the raw images. This script creates an optional feature file
-named engineered_features.csv for earlier hand-crafted feature experiments.
+The provided CSV features are useful, but they may miss some colour, texture,
+and spatial layout information from the raw images. This script creates an
+optional feature file named engineered_features.csv for extra experiments.
 """
 
 import argparse
@@ -34,25 +34,13 @@ def normalised_histogram(values, bins, value_range):
     return hist
 
 
-def channel_skew(values):
-    """Calculate a simple skewness value for one image channel."""
-    mean = values.mean()
-    std = values.std()
-
-    # If the channel is almost constant, skewness is not meaningful.
-    if std < 1e-8:
-        return 0.0
-
-    return np.mean(((values - mean) / std) ** 3)
-
-
-def extract_colour_features(rgb_image, hsv_image):
-    """Extract global colour histograms and colour moments."""
+def extract_hsv_histogram_features(hsv_image):
+    """Extract global HSV colour histograms."""
     features = {}
 
-    # HSV separates colour type from brightness, which can help with animals
-    # that have distinctive colours.
-    hsv_bins = {"h": 16, "s": 8, "v": 8}
+    # HSV separates colour type from brightness. This is useful for Task 2
+    # birds because species often differ by head, wing, or body colour.
+    hsv_bins = {"h": 24, "s": 12, "v": 12}
     for channel_index, channel_name in enumerate(["h", "s", "v"]):
         hist = normalised_histogram(
             hsv_image[:, :, channel_index],
@@ -61,18 +49,6 @@ def extract_colour_features(rgb_image, hsv_image):
         )
         for bin_index, value in enumerate(hist):
             features[f"hsv_{channel_name}_{bin_index}"] = value
-
-    # Mean, standard deviation, and skewness describe the overall colour
-    # distribution without using too many features.
-    for image_name, image_array, channels in [
-        ("rgb", rgb_image, ["r", "g", "b"]),
-        ("hsv", hsv_image, ["h", "s", "v"]),
-    ]:
-        for channel_index, channel_name in enumerate(channels):
-            values = image_array[:, :, channel_index].reshape(-1)
-            features[f"{image_name}_{channel_name}_mean"] = values.mean()
-            features[f"{image_name}_{channel_name}_std"] = values.std()
-            features[f"{image_name}_{channel_name}_skew"] = channel_skew(values)
 
     return features
 
@@ -102,53 +78,34 @@ def extract_spatial_colour_features(rgb_image, grid_size=4):
     return features
 
 
-def extract_gray_features(gray_image):
-    """Extract texture, edge, and low-resolution shape features."""
+def extract_lbp_texture_features(gray_image):
+    """Extract a Local Binary Pattern texture histogram."""
     features = {}
 
-    # Basic grayscale statistics describe brightness and contrast.
-    features["gray_mean"] = gray_image.mean()
-    features["gray_std"] = gray_image.std()
-    features["gray_min"] = gray_image.min()
-    features["gray_max"] = gray_image.max()
-    features["gray_p25"] = np.percentile(gray_image, 25)
-    features["gray_p50"] = np.percentile(gray_image, 50)
-    features["gray_p75"] = np.percentile(gray_image, 75)
+    # LBP compares each pixel with its 8 neighbours. It can capture simple
+    # feather texture, spots, and streaks without training another model.
+    center = gray_image[1:-1, 1:-1]
+    lbp_codes = np.zeros(center.shape, dtype=np.uint8)
 
-    gray_hist = normalised_histogram(gray_image, bins=16, value_range=(0, 1))
-    entropy = -np.sum(gray_hist * np.log2(gray_hist + 1e-12))
-    features["gray_entropy"] = entropy
+    neighbours = [
+        gray_image[:-2, :-2],
+        gray_image[:-2, 1:-1],
+        gray_image[:-2, 2:],
+        gray_image[1:-1, 2:],
+        gray_image[2:, 2:],
+        gray_image[2:, 1:-1],
+        gray_image[2:, :-2],
+        gray_image[1:-1, :-2],
+    ]
 
-    # Use simple image gradients as a lightweight edge descriptor.
-    grad_y, grad_x = np.gradient(gray_image)
-    magnitude = np.sqrt(grad_x**2 + grad_y**2)
-    angle = (np.arctan2(grad_y, grad_x) + np.pi) % np.pi
+    for bit_index, neighbour in enumerate(neighbours):
+        lbp_codes += ((neighbour >= center) << bit_index).astype(np.uint8)
 
-    features["edge_density"] = np.mean(magnitude > magnitude.mean())
-    features["edge_mean"] = magnitude.mean()
-    features["edge_std"] = magnitude.std()
-
-    edge_hist, _ = np.histogram(
-        angle,
-        bins=8,
-        range=(0, np.pi),
-        weights=magnitude,
-    )
-    if edge_hist.sum() > 0:
-        edge_hist = edge_hist / edge_hist.sum()
-
-    for bin_index, value in enumerate(edge_hist):
-        features[f"edge_angle_{bin_index}"] = value
+    lbp_hist = normalised_histogram(lbp_codes.reshape(-1), bins=256, value_range=(0, 256))
+    for bin_index, value in enumerate(lbp_hist):
+        features[f"lbp_{bin_index}"] = value
 
     return features
-
-
-def extract_thumbnail_features(image_path, size=16):
-    """Flatten a small grayscale thumbnail to keep rough shape information."""
-    image = Image.open(image_path).convert("L").resize((size, size), Image.Resampling.BILINEAR)
-    thumbnail = np.asarray(image, dtype=float).reshape(-1) / 255.0
-
-    return {f"thumb_{index}": value for index, value in enumerate(thumbnail)}
 
 
 def extract_features_for_image(image_path):
@@ -161,10 +118,9 @@ def extract_features_for_image(image_path):
     gray_image = np.asarray(rgb_pil.convert("L"), dtype=float) / 255.0
 
     features = {}
-    features.update(extract_colour_features(rgb_image, hsv_image))
+    features.update(extract_hsv_histogram_features(hsv_image))
     features.update(extract_spatial_colour_features(rgb_image))
-    features.update(extract_gray_features(gray_image))
-    features.update(extract_thumbnail_features(image_path))
+    features.update(extract_lbp_texture_features(gray_image))
 
     return features
 
@@ -202,8 +158,8 @@ def build_engineered_features(task):
 
 def parse_args():
     """Read command line arguments."""
-    parser = argparse.ArgumentParser(description="Extract extra image features for Task 1.")
-    parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
+    parser = argparse.ArgumentParser(description="Extract engineered image features.")
+    parser.add_argument("--task", default="task2", help="Task folder under data/raw.")
     return parser.parse_args()
 
 

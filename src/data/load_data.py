@@ -21,6 +21,7 @@ FEATURE_FILES = {
     "color": "color_histogram.csv",
     "hog": "hog_pca.csv",
     "additional": "additional_features.csv",
+    "engineered": "engineered_features.csv",
     "deep_resnet50": "deep_resnet50_features.csv",
     "deep_resnet152": "deep_resnet152_features.csv",
     "deep_efficientnet_v2_s": "deep_efficientnet_v2_s_features.csv",
@@ -39,7 +40,7 @@ def read_csv_checked(file_path):
 def choose_feature_sets(feature_names):
     """Convert 'all' into the full list of provided feature sets."""
     # "all" is convenient for quick experiments, but final experiments can pass
-    # an explicit list such as hog additional deep_efficientnet_v2_m.
+    # an explicit list such as engineered deep_efficientnet_v2_m.
     if feature_names == ["all"]:
         return list(FEATURE_FILES.keys())
 
@@ -156,7 +157,7 @@ def parse_args():
         help=(
             "Feature sets to use: all, color, hog, additional, deep_resnet50, "
             "deep_resnet152, deep_efficientnet_v2_s, deep_efficientnet_v2_m, "
-            "deep_efficientnet_v2_l."
+            "deep_efficientnet_v2_l, engineered."
         ),
     )
     parser.add_argument(

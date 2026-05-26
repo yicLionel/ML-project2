@@ -1,0 +1,63 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citename{Breiman}2001]{breiman2001random}
+Leo Breiman.
+\newblock 2001.
+\newblock Random forests.
+\newblock {\em Machine Learning}, 45(1):5--32.
+
+\bibitem[\protect\citename{Cortes and Vapnik}1995]{cortes1995support}
+Corinna Cortes and Vladimir Vapnik.
+\newblock 1995.
+\newblock Support-vector networks.
+\newblock {\em Machine Learning}, 20(3):273--297.
+
+\bibitem[\protect\citename{Dalal and Triggs}2005]{dalal2005histograms}
+Navneet Dalal and Bill Triggs.
+\newblock 2005.
+\newblock Histograms of oriented gradients for human detection.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, volume~1, pages 886--893.
+
+\bibitem[\protect\citename{Deng \bgroup et al.\egroup }2009]{deng2009imagenet}
+Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li, and Li~Fei-Fei.
+\newblock 2009.
+\newblock Imagenet: A large-scale hierarchical image database.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 248--255.
+
+\bibitem[\protect\citename{Geurts \bgroup et al.\egroup
+  }2006]{geurts2006extremely}
+Pierre Geurts, Damien Ernst, and Louis Wehenkel.
+\newblock 2006.
+\newblock Extremely randomized trees.
+\newblock {\em Machine Learning}, 63(1):3--42.
+
+\bibitem[\protect\citename{Tan and Le}2021]{tan2021efficientnetv2}
+Mingxing Tan and Quoc~V. Le.
+\newblock 2021.
+\newblock {EfficientNetV2}: Smaller models and faster training.
+\newblock In {\em Proceedings of the 38th International Conference on Machine
+  Learning}, pages 10096--10106.
+
+\bibitem[\protect\citename{Yosinski \bgroup et al.\egroup
+  }2014]{yosinski2014transferable}
+Jason Yosinski, Jeff Clune, Yoshua Bengio, and Hod Lipson.
+\newblock 2014.
+\newblock How transferable are features in deep neural networks?
+\newblock In {\em Advances in Neural Information Processing Systems},
+  volume~27.
+
+\bibitem[\protect\citename{Zeiler and Fergus}2014]{zeiler2014visualizing}
+Matthew~D. Zeiler and Rob Fergus.
+\newblock 2014.
+\newblock Visualizing and understanding convolutional networks.
+\newblock In {\em European Conference on Computer Vision}, pages 818--833.
+
+\bibitem[\protect\citename{Zhang \bgroup et al.\egroup }2014]{zhang2014part}
+Ning Zhang, Jeff Donahue, Ross Girshick, and Trevor Darrell.
+\newblock 2014.
+\newblock Part-based {R-CNNs} for fine-grained category detection.
+\newblock In {\em European Conference on Computer Vision}, pages 834--849.
+
+\end{thebibliography}

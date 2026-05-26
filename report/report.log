@@ -1,0 +1,216 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.17)  26 MAY 2026 21:36
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/Users/yyc/Documents/Unimelb/COMP30027_Machine_Learning/ML-project2/report/report.tex
+(/Users/yyc/Documents/Unimelb/COMP30027_Machine_Learning/ML-project2/report/report.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+(/usr/local/texlive/2026/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(/usr/local/texlive/2026/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count275
+\c@section=\count276
+\c@subsection=\count277
+\c@subsubsection=\count278
+\c@paragraph=\count279
+\c@subparagraph=\count280
+\c@figure=\count281
+\c@table=\count282
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen148
+) (./colacl.sty
+
+ALTW 2005 Proceedings style -- June 7th 2005
+derived from
+ACL-COLING 1998 Proceedings style -- March 31st 1998
+
+\titlebox=\skip51
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen149
+\Gin@req@width=\dimen150
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count283
+\float@exts=\toks18
+\float@box=\box53
+\@float@everytoks=\toks19
+\@floatcapt=\box54
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count284
+) (./report.aux)
+\openout1 = `report.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+ (/usr/local/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count285
+\scratchdimen=\dimen151
+\scratchbox=\box55
+\nofMPsegments=\count286
+\nofMParguments=\count287
+\everyMPshowfont=\toks20
+\MPscratchCnt=\count288
+\MPscratchDim=\dimen152
+\MPnumerator=\count289
+\makeMPintoPDFobject=\count290
+\everyMPtoPDFconversion=\toks21
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 29.
+
+
+LaTeX Warning: No \author given.
+
+
+Underfull \hbox (badness 1400) in paragraph at lines 66--75
+[]\OT1/cmr/m/n/10.95 I also used ImageNet-pretrained con-vo-lu-
+ []
+
+
+Underfull \hbox (badness 1210) in paragraph at lines 78--84
+\OT1/cmr/m/n/10.95 I eval-u-ated lin-ear, non-linear, prob-a-bilis-tic,
+ []
+
+
+Underfull \hbox (badness 1158) in paragraph at lines 86--93
+\OT1/cmr/m/n/10.95 validation splits for the main re-sult ta-bles
+ []
+
+
+Underfull \hbox (badness 1642) in paragraph at lines 86--93
+\OT1/cmr/m/n/10.95 validation dur-ing hy-per-pa-ram-e-ter screen-ing.
+ []
+
+[1{/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+
+]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 114.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 114.
+
+Underfull \hbox (badness 3168) in paragraph at lines 119--119
+[]\OT1/cmr/m/n/10 HOG + ad-di-tional +
+ []
+
+
+Underfull \hbox (badness 3168) in paragraph at lines 120--120
+[]\OT1/cmr/m/n/10 HOG + ad-di-tional +
+ []
+
+
+Overfull \hbox (1.53268pt too wide) in paragraph at lines 114--123
+ [][] 
+ []
+
+
+Underfull \hbox (badness 4454) in paragraph at lines 127--131
+\OT1/cmr/m/n/10.95 the same HOG, ad-di-tional fea-tures, and
+ []
+
+
+Underfull \hbox (badness 1009) in paragraph at lines 154--160
+\OT1/cmr/m/n/10.95 Ini-tial ex-per-i-ments us-ing the pro-vided low-
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 173.
+
+Overfull \hbox (11.96397pt too wide) in paragraph at lines 173--186
+ [][] 
+ []
+
+
+Underfull \hbox (badness 3668) in paragraph at lines 191--201
+\OT1/cmr/m/n/10.95 from com-bin-ing se-lected pro-vided de-scrip-
+ []
+
+
+Underfull \hbox (badness 1852) in paragraph at lines 191--201
+\OT1/cmr/m/n/10.95 dings, es-pe-cially HOG, ad-di-tional fea-tures,
+ []
+
+[2]
+Underfull \hbox (badness 1448) in paragraph at lines 233--239
+\OT1/cmr/m/n/10.95 Classifier choice still mat-tered, but its ef-
+ []
+
+<../outputs/figures/task2_random_forest_confusion_matrix.png, id=13, 622.325pt x 642.4pt>
+File: ../outputs/figures/task2_random_forest_confusion_matrix.png Graphic file (type png)
+<use ../outputs/figures/task2_random_forest_confusion_matrix.png>
+Package pdftex.def Info: ../outputs/figures/task2_random_forest_confusion_matrix.png  used on input line 281.
+(pdftex.def)             Requested size: 212.29367pt x 219.13847pt.
+[3]
+Underfull \hbox (badness 1360) in paragraph at lines 296--303
+\OT1/cmr/m/n/10.95 strength and lim-i-ta-tion of the cur-rent ap-
+ []
+
+(./report.bbl [4 <../outputs/figures/task2_random_forest_confusion_matrix.png (PNG copy)>]) [5
+
+] (./report.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 1446 strings out of 467525
+ 23933 string characters out of 5418982
+ 452756 words of memory out of 5000000
+ 30379 multiletter control sequences out of 15000+600000
+ 633235 words of font info for 58 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 57i,10n,65p,276b,248s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on report.pdf (5 pages, 136930 bytes).
+PDF statistics:
+ 46 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+

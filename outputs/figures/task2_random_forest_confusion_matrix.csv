@@ -1,0 +1,11 @@
+,American_Goldfinch,Blue_Jay,Cardinal,Herring_Gull,House_Sparrow,Red_winged_Blackbird,Ring_billed_Gull,Song_Sparrow,Wilson_Warbler,Yellow_Warbler
+American_Goldfinch,8,0,0,0,0,0,0,0,0,0
+Blue_Jay,0,8,0,0,0,0,0,0,0,0
+Cardinal,0,0,8,0,0,0,0,0,0,0
+Herring_Gull,0,0,0,9,0,0,0,0,0,0
+House_Sparrow,0,0,0,0,9,0,0,0,0,0
+Red_winged_Blackbird,0,0,0,0,0,9,0,0,0,0
+Ring_billed_Gull,0,0,0,1,0,0,7,0,0,0
+Song_Sparrow,0,0,0,0,0,0,0,9,0,0
+Wilson_Warbler,0,0,0,0,0,0,0,0,8,0
+Yellow_Warbler,0,0,0,0,0,0,0,0,1,7

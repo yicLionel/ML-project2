@@ -1,0 +1,8 @@
+task,model,features,valid_accuracy,valid_macro_f1
+task2,logistic_regression,hog+additional+color,0.3333333333333333,0.3130828966355282
+task2,linear_svm,hog+additional+color,0.3333333333333333,0.31502796847190434
+task2,svm_rbf,hog+additional+color,0.27380952380952384,0.2296512909840584
+task2,knn,hog+additional+color,0.16666666666666666,0.12031919487162454
+task2,gaussian_nb,hog+additional+color,0.19047619047619047,0.1556574125594399
+task2,random_forest,hog+additional+color,0.35714285714285715,0.34309829059829056
+task2,extra_trees,hog+additional+color,0.30952380952380953,0.27221357618416436
