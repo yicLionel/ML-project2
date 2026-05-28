@@ -147,7 +147,7 @@ def parse_args():
     parser.add_argument(
         "--features",
         nargs="+",
-        default=["color", "hog", "additional", "deep_efficientnet_v2_m"],
+        default=["color", "hog", "additional", "deep_efficientnet_v2_l"],
         help="Feature sets to use.",
     )
     parser.add_argument("--folds", type=int, default=9, help="Number of CV folds.")

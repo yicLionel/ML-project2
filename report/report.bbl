@@ -16,18 +16,15 @@ Corinna Cortes and Vladimir Vapnik.
 Navneet Dalal and Bill Triggs.
 \newblock 2005.
 \newblock Histograms of oriented gradients for human detection.
-\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
-  Pattern Recognition}, volume~1, pages 886--893.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition}, volume~1, pages 886--893.
 
 \bibitem[\protect\citename{Deng \bgroup et al.\egroup }2009]{deng2009imagenet}
 Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li, and Li~Fei-Fei.
 \newblock 2009.
 \newblock Imagenet: A large-scale hierarchical image database.
-\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
-  Pattern Recognition}, pages 248--255.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition}, pages 248--255.
 
-\bibitem[\protect\citename{Geurts \bgroup et al.\egroup
-  }2006]{geurts2006extremely}
+\bibitem[\protect\citename{Geurts \bgroup et al.\egroup }2006]{geurts2006extremely}
 Pierre Geurts, Damien Ernst, and Louis Wehenkel.
 \newblock 2006.
 \newblock Extremely randomized trees.
@@ -37,16 +34,13 @@ Pierre Geurts, Damien Ernst, and Louis Wehenkel.
 Mingxing Tan and Quoc~V. Le.
 \newblock 2021.
 \newblock {EfficientNetV2}: Smaller models and faster training.
-\newblock In {\em Proceedings of the 38th International Conference on Machine
-  Learning}, pages 10096--10106.
+\newblock In {\em Proceedings of the 38th International Conference on Machine Learning}, pages 10096--10106.
 
-\bibitem[\protect\citename{Yosinski \bgroup et al.\egroup
-  }2014]{yosinski2014transferable}
+\bibitem[\protect\citename{Yosinski \bgroup et al.\egroup }2014]{yosinski2014transferable}
 Jason Yosinski, Jeff Clune, Yoshua Bengio, and Hod Lipson.
 \newblock 2014.
 \newblock How transferable are features in deep neural networks?
-\newblock In {\em Advances in Neural Information Processing Systems},
-  volume~27.
+\newblock In {\em Advances in Neural Information Processing Systems}, volume~27.
 
 \bibitem[\protect\citename{Zeiler and Fergus}2014]{zeiler2014visualizing}
 Matthew~D. Zeiler and Rob Fergus.

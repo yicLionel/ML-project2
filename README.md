@@ -20,7 +20,7 @@ outputs/
   results/              # Validation CSVs used in the report
   figures/              # Report figures and figure source CSVs
   submissions/          # Final Kaggle-format submission CSVs
-  models/               # Saved fitted models
+  models/               # Optional fitted models created by make_submission.py
 report/                 # Report draft and report assets
 ```
 
@@ -32,7 +32,7 @@ Install the dependencies first:
 pip install -r requirements.txt
 ```
 
-If `deep_efficientnet_v2_l_features.csv` is not already present, extract the EfficientNet-V2-L features first. 
+The EfficientNet-V2-L feature CSV files are already included under `data/raw/task1/` and `data/raw/task2/`. Therefore, the final models can be trained directly from the provided feature files. If these CSV files are missing, they can be regenerated from the raw images by running the feature extraction commands below. The local Torch cache for downloaded pretrained weights is not included in the submitted zip archive.
 
 ```bash
 python src/features/extract_deep_features.py --task task1 --model efficientnet_v2_l
@@ -49,6 +49,67 @@ Run the final Task 2 model and validation:
 
 ```bash
 python src/models/train_baselines.py --task task2 --features hog additional deep_efficientnet_v2_l
+```
+
+## Model Selection and Hyperparameter Tuning
+
+The final training and submission scripts already use the selected model settings. This section is only included to show how the hyperparameters were chosen during development. It can be skipped if the goal is only to reproduce the final validation results and Kaggle submissions.
+
+The scripts in `src/models/` were used in two stages. First,
+`train_baselines.py` compares the main classifier families on a held-out
+validation split and writes a validation CSV to `outputs/results/`. Then the tuning scripts use stratified cross-validation to test selected hyperparameter grids.
+
+Linear models:
+
+```bash
+python src/models/tune_linear_models.py --task task1 --features color hog additional deep_efficientnet_v2_l
+```
+
+This compares Logistic Regression and Linear SVM across several `C` values and
+preprocessing choices. It writes:
+
+```text
+outputs/results/<task>_<features>_linear_cv_results.csv
+```
+
+Random Forest:
+
+```bash
+python src/models/tune_random_forest.py --task task2 --features hog additional deep_efficientnet_v2_l
+```
+
+This tunes `max_depth`, `min_samples_leaf`, `max_features`, and the number of
+trees. It writes:
+
+```text
+outputs/results/<task>_<features>_random_forest_cv_results.csv
+```
+
+KNN:
+
+```bash
+python src/models/tune_knn.py --task task1 --features color hog additional deep_efficientnet_v2_l
+```
+
+This tests different values of `k`, distance weighting, and preprocessing
+choices. It writes:
+
+```text
+outputs/results/<task>_<features>_knn_cv_results.csv
+```
+
+Candidate model comparison:
+
+```bash
+python src/models/tune_candidate_models.py --task task2 --features hog additional deep_efficientnet_v2_l
+```
+
+This compares likely final candidates, including Logistic Regression, RBF SVM,
+Random Forest, and Extra Trees, and records mean and standard deviation across
+folds. It writes:
+
+```text
+outputs/results/<task>_<features>_candidate_cv_results.csv
 ```
 
 Reproduce the report figure:
