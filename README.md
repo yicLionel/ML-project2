@@ -26,17 +26,35 @@ report/                 # Report draft and report assets
 
 ## How to Run
 
-Install the dependencies first:
+Create and activate a clean Python virtual environment first. The commands
+below create the environment in `.venv/`, which is ignored by git.
 
 ```bash
-pip install -r requirements.txt
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
-The EfficientNet-V2-L feature CSV files are already included under `data/raw/task1/` and `data/raw/task2/`. Therefore, the final models can be trained directly from the provided feature files. If these CSV files are missing, they can be regenerated from the raw images by running the feature extraction commands below. The local Torch cache for downloaded pretrained weights is not included in the submitted zip archive.
+After installation, check that the main dependencies are available:
+
+```bash
+python -c "import torch, torchvision, sklearn; print('torch', torch.__version__); print('torchvision', torchvision.__version__)"
+```
+
+When you return to the project later, reactivate the same environment before running any scripts:
+
+```bash
+source .venv/bin/activate
+```
+
+The EfficientNet-V2-L and ResNet-50 feature CSV files are already included in the submitted zip under `data/raw/task1/` and `data/raw/task2/`. Therefore, the final models can be trained directly from the provided feature files. If these CSV files are missing in the evaluation environment, they can be regenerated from the raw images by running the feature extraction commands below. The local Torch cache for downloaded pretrained weights is not included in the submitted zip archive.
 
 ```bash
 python src/features/extract_deep_features.py --task task1 --model efficientnet_v2_l
 python src/features/extract_deep_features.py --task task2 --model efficientnet_v2_l
+python src/features/extract_deep_features.py --task task1 --model resnet50 --batch-size 64
+python src/features/extract_deep_features.py --task task2 --model resnet50 --batch-size 32
 ```
 
 Run the final Task 1 model and validation:
@@ -147,6 +165,4 @@ python src/models/make_submission.py --task task2 --model random_forest --featur
 
 ## Notes
 
-- `src/data/load_data.py` is normally called by the model scripts. It does not need to be run directly.
-- If the EfficientNet-V2-L feature CSVs are missing, generate them with `src/features/extract_deep_features.py` before training.
 - The pretrained CNN is used only as a generic ImageNet feature extractor. It is not trained or fine-tuned on CIFAR-10, CUB-200-2011, or the project data.

@@ -177,10 +177,10 @@ def build_deep_feature_table(task, model_name, batch_size):
 def parse_args():
     """Read command line arguments."""
     parser = argparse.ArgumentParser(description="Extract ImageNet pretrained CNN features.")
-    parser.add_argument("--task", default="task2", help="Task folder under data/raw.")
+    parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
     parser.add_argument(
         "--model",
-        default="resnet152",
+        default="resnet50",
         choices=list(MODEL_CONFIGS.keys()),
         help="ImageNet pretrained model to use.",
     )

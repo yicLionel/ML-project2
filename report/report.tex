@@ -66,7 +66,7 @@ structure~\cite{dalal2005histograms}.
 I also used ImageNet-pretrained convolutional neural networks as fixed feature extractors. 
 In this approach, each image is passed through a pretrained CNN, and the final classification layer 
 is removed so that the network output is used as a deep embedding. 
-I experimented with \textbf{ResNet} and \textbf{EfficientNet} variants, with EfficientNet-V2-L giving the strongest representation in later experiments. 
+I experimented with \textbf{ResNet-50} and \textbf{EfficientNet} variants, with EfficientNet-V2-L giving the strongest representation in later experiments. 
 These CNN outputs were treated as engineered feature representations rather than
 end-to-end neural classifiers, so they could be concatenated with the provided
 features and passed to the same set of supervised learners.
@@ -116,6 +116,7 @@ the pretrained CNN representation captured more discriminative visual structure 
 Features & Accuracy & Macro-F1 \\
 \hline
 Colour + HOG + additional & 0.544 & 0.541 \\
+Colour + HOG + additional + ResNet-50 & 0.897 & 0.897 \\
 HOG + additional + EffNet-V2-M & 0.931 & 0.931 \\
 Colour + HOG + additional + EffNet-V2-L & 0.973 & 0.973 \\
 \hline
@@ -138,7 +139,7 @@ Model & Accuracy & Macro-F1 \\
 \hline
 Logistic Regression & 0.973 & 0.973 \\
 RBF SVM & 0.963 & 0.963 \\
-Random Forest & 0.957 & 0.957 \\
+Random Forest & 0.960 & 0.960 \\
 \hline
 \end{tabular}
 \caption{Selected Task 1 held-out validation comparison of models using colour, HOG, additional features, and EfficientNet-V2-L embeddings.}
@@ -153,10 +154,29 @@ without requiring a more complex classifier.
 \subsection{Task 2: Fine-Grained Classification}
 Task 2 was more challenging than Task 1 because the classes are visually 
 similar bird species and the labelled training set is much smaller. 
-Initial experiments using the provided low-level descriptors gave limited performance compared 
-with later combinations that included CNN embeddings. The strongest representation combined 
-HOG, additional features, and EfficientNet-V2-L embeddings, and this feature set gave 
-consistently strong performance across different classifiers.
+Initial experiments using only the provided low-level descriptors gave limited
+performance, with the best provided-feature model reaching 40.5\% accuracy.
+Adding CNN embeddings produced a much larger improvement, as shown in
+Table~\ref{tab:task2-feature-results}. The strongest representation combined
+HOG, additional features, and EfficientNet-V2-L embeddings, and this feature set
+gave consistently strong performance across different classifiers.
+
+\begin{table}[h]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcc}
+\hline
+Feature set (best model) & Acc. & Macro-F1 \\
+\hline
+Colour + HOG + additional, Random Forest & 0.405 & 0.392 \\
+HOG + additional + ResNet-50, Extra Trees & 0.845 & 0.838 \\
+HOG + additional + EffNet-V2-L, Random Forest & 0.976 & 0.975 \\
+\hline
+\end{tabular}
+}
+\caption{Task 2 held-out validation comparison between provided low-level features and the final deep-feature representation.}
+\label{tab:task2-feature-results}
+\end{table}
 
 Table~\ref{tab:task2-validation} reports the main Task 2 results for this 
 strongest representation. Tree-based ensemble models achieved the strongest performance, 
@@ -223,10 +243,10 @@ local cue such as a bill marking, head colour, or wing pattern. In this sense, t
 features reduce the burden placed on the classifier: after the image has been mapped 
 into a stronger feature space, even relatively simple models can separate many classes well.
 
-The improvement from EfficientNet-V2-M to EfficientNet-V2-L suggests that
-representation capacity also mattered. The larger model likely captured richer
-visual patterns that transferred better to fine-grained bird recognition. At the
-same time, the CNNs were used only as fixed ImageNet-pretrained feature extractors,
+The improvement from ResNet-50 and EfficientNet-V2-M to EfficientNet-V2-L
+suggests that representation capacity also mattered. The stronger model likely
+captured richer visual patterns that transferred better to fine-grained bird
+recognition. At the same time, the CNNs were used only as fixed ImageNet-pretrained feature extractors,
 not fine-tuned on CUB-200-2011 or the project data. Therefore, the performance gain
 should be interpreted as the benefit of transfer learning rather than supervised
 adaptation to the target classes.
