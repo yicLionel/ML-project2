@@ -1,12 +1,7 @@
-Final designed model submissions:
+This directory contains the final Kaggle-format prediction files submitted for
+the two designed models.
 
-- Task 1 final: `task1_logistic_regression_color_hog_additional_deep_efficientnet_v2_l_submission.csv`
-  - Model: Logistic Regression
-  - Features: Color + HOG + additional + EfficientNet-V2-L
+Final files:
 
-- Task 2 final: `task2_random_forest_hog_additional_deep_efficientnet_v2_l_submission.csv`
-  - Model: Random Forest
-  - Features: HOG + additional + EfficientNet-V2-L
-
-All other CSV files in this directory are exploratory Kaggle-format submissions
-from earlier model and feature comparisons.
+- Task 1: `task1_logistic_regression_color_hog_additional_deep_efficientnet_v2_l_submission.csv`
+- Task 2: `task2_random_forest_hog_additional_deep_efficientnet_v2_l_submission.csv`

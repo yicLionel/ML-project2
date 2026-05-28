@@ -18,7 +18,7 @@ src/
   models/               # Training, tuning, and submission scripts
 outputs/
   results/              # Validation and cross-validation result CSVs
-  submissions/          # Kaggle submission CSV files
+  submissions/          # Final Kaggle-format submission CSVs
   models/               # Saved fitted models
 report/                 # Report draft and report assets
 ```
@@ -59,14 +59,13 @@ The final designed models used for the report are:
 | Task 1 | Logistic Regression | Color + HOG + additional + EfficientNet-V2-L | `outputs/results/task1_color_hog_additional_deep_efficientnet_v2_l_baseline_results.csv` | `outputs/submissions/task1_logistic_regression_color_hog_additional_deep_efficientnet_v2_l_submission.csv` |
 | Task 2 | Random Forest | HOG + additional + EfficientNet-V2-L | `outputs/results/task2_hog_additional_deep_efficientnet_v2_l_baseline_results.csv` | `outputs/submissions/task2_random_forest_hog_additional_deep_efficientnet_v2_l_submission.csv` |
 
-The final Kaggle-format prediction files can be reproduced with:
+The final Kaggle-format prediction files submitted to Kaggle are stored in
+`outputs/submissions/`. They can be reproduced with:
 
 ```bash
 python src/models/make_submission.py --task task1 --model logistic_regression --features color hog additional deep_efficientnet_v2_l
 python src/models/make_submission.py --task task2 --model random_forest --features hog additional deep_efficientnet_v2_l
 ```
-
-Other CSV files in `outputs/submissions/` are exploratory submissions from earlier model comparisons.
 
 ## Notes
 
