@@ -104,7 +104,7 @@ Table~\ref{tab:task1-results} summarises the main Task 1 validation results.
 Using only the provided hand-crafted descriptors gave relatively weak performance, 
 with the best baseline accuracy around 54.4\%. Adding ImageNet-pretrained 
 CNN embeddings substantially improved performance. The best Task 1 validation 
-result was obtained using HOG, additional features, and EfficientNet-V2-L embeddings, 
+result was obtained using colour, HOG, additional features, and EfficientNet-V2-L embeddings, 
 reaching 97.3\% accuracy and 97.3\% macro-F1 with Logistic Regression. This suggests that 
 the pretrained CNN representation captured more discriminative visual structure than simple hand-crafted features alone.
 
@@ -117,7 +117,7 @@ Features & Accuracy & Macro-F1 \\
 \hline
 Colour + HOG + additional & 0.544 & 0.541 \\
 HOG + additional + EffNet-V2-M & 0.931 & 0.931 \\
-HOG + additional + EffNet-V2-L & 0.973 & 0.973 \\
+Colour + HOG + additional + EffNet-V2-L & 0.973 & 0.973 \\
 \hline
 \end{tabular}
 \caption{Selected Task 1 held-out validation results. EffNet denotes EfficientNet.}
@@ -125,7 +125,7 @@ HOG + additional + EffNet-V2-L & 0.973 & 0.973 \\
 \end{table}
 
 After selecting the strongest Task 1 representation, I compared several classifiers 
-on the same HOG, additional features, and EfficientNet-V2-L feature set. 
+on the same colour, HOG, additional features, and EfficientNet-V2-L feature set. 
 Table~\ref{tab:task1-models} shows a small comparison across linear, kernel-based, 
 and ensemble models.
 
@@ -141,7 +141,7 @@ RBF SVM & 0.963 & 0.963 \\
 Random Forest & 0.957 & 0.957 \\
 \hline
 \end{tabular}
-\caption{Selected Task 1 held-out validation comparison of models using HOG, additional features, and EfficientNet-V2-L embeddings.}
+\caption{Selected Task 1 held-out validation comparison of models using colour, HOG, additional features, and EfficientNet-V2-L embeddings.}
 \label{tab:task1-models}
 \end{table}
 
@@ -189,15 +189,17 @@ Gaussian NB & 0.940 & 0.938 & Probabilistic \\
 
 \subsection{Cross-Task Comparison}
 Across both tasks, the strongest results came from combining selected provided
-descriptors with ImageNet-pretrained CNN embeddings, especially HOG, additional
-features, and EfficientNet-V2-L. This suggests that low-level descriptors and
-CNN embeddings captured complementary information. The coarse-to-fine progression
-also shows that Task 2 required a stronger representation: broad shape and colour
-cues were often enough for Task 1, but Task 2 depended more on subtle local
-markings and texture patterns. Once EfficientNet-V2-L embeddings were included,
-several classifiers achieved similar validation performance, which indicates that
-the main gain came from improving the representation rather than only choosing a
-more complex classifier.
+descriptors with ImageNet-pretrained CNN embeddings. The final feature choices
+also reflected the coarse-to-fine setting. Colour was kept for Task 1 because
+coarse animal categories often differ in global colour and overall appearance.
+For Task 2, the global colour histogram was not included in the final feature set
+because bird species can have highly overlapping colour distributions; it was
+therefore more likely to be redundant or noisy than HOG, additional features, and
+EfficientNet-V2-L representations, which better encode shape, texture, and local
+visual evidence. Once EfficientNet-V2-L embeddings were included, several
+classifiers achieved similar validation performance, indicating that the main
+gain came from improving the representation rather than only choosing a more
+complex classifier.
 
 
 
@@ -320,7 +322,7 @@ macro-F1 and compared several model families.
 This project showed that image representation was the most important factor in both coarse-grained and fine-grained classification. 
 The provided low-level descriptors were useful as baseline features, but the strongest results came from combining selected provided 
 descriptors with ImageNet-pretrained CNN embeddings.
-In particular, HOG, additional features, and EfficientNet-V2-L embeddings gave the best overall performance.
+In particular, the final models used EfficientNet-V2-L with HOG and additional features, plus colour for Task 1.
 
 The coarse-to-fine comparison showed that fine-grained bird classification requires richer representations 
 because the classes differ in subtle local details rather than broad visual categories. 

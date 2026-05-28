@@ -24,6 +24,9 @@ outputs/models/*
 !outputs/models/.gitkeep
 outputs/submissions/*
 !outputs/submissions/.gitkeep
+!outputs/submissions/README.md
+!outputs/submissions/task1_logistic_regression_color_hog_additional_deep_efficientnet_v2_l_submission.csv
+!outputs/submissions/task2_random_forest_hog_additional_deep_efficientnet_v2_l_submission.csv
 outputs/*.csv
 outputs/*.json
 

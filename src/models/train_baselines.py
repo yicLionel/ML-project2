@@ -211,7 +211,7 @@ def save_results(results, task, feature_names):
 def parse_args():
     """Read command line arguments."""
     parser = argparse.ArgumentParser(description="Train baseline models for Task 1 or Task 2.")
-    parser.add_argument("--task", default="task2", help="Task folder under data/raw.")
+    parser.add_argument("--task", default="task1", help="Task folder under data/raw.")
     # Default to the current strongest feature combination. Use --features all
     # only for broad comparison runs because it includes every registered file.
     parser.add_argument(
