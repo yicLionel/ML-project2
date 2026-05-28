@@ -1,8 +1,0 @@
-task,model,features,valid_accuracy,valid_macro_f1
-task2,logistic_regression,hog+engineered+deep_efficientnet_v2_l,0.9642857142857143,0.9630701754385965
-task2,linear_svm,hog+engineered+deep_efficientnet_v2_l,0.9642857142857143,0.9630701754385965
-task2,svm_rbf,hog+engineered+deep_efficientnet_v2_l,0.9523809523809523,0.9505701754385963
-task2,knn,hog+engineered+deep_efficientnet_v2_l,0.9285714285714286,0.926095026404624
-task2,gaussian_nb,hog+engineered+deep_efficientnet_v2_l,0.9166666666666666,0.9140144478844171
-task2,random_forest,hog+engineered+deep_efficientnet_v2_l,0.9761904761904762,0.9755211558307535
-task2,extra_trees,hog+engineered+deep_efficientnet_v2_l,0.9642857142857143,0.9638398692810458

@@ -17,7 +17,8 @@ src/
   features/             # Feature extraction scripts
   models/               # Training, tuning, and submission scripts
 outputs/
-  results/              # Validation and cross-validation result CSVs
+  results/              # Validation CSVs used in the report
+  figures/              # Report figures and figure source CSVs
   submissions/          # Final Kaggle-format submission CSVs
   models/               # Saved fitted models
 report/                 # Report draft and report assets
@@ -49,6 +50,22 @@ Run the final Task 2 model and validation:
 ```bash
 python src/models/train_baselines.py --task task2 --features hog additional deep_efficientnet_v2_l
 ```
+
+Reproduce the report figure:
+
+```bash
+python src/evaluation/plot_task2_confusion_matrix.py
+```
+
+This creates:
+
+```text
+outputs/figures/task2_random_forest_confusion_matrix.png
+outputs/figures/task2_random_forest_confusion_matrix.csv
+```
+
+The report tables are based on the retained validation CSV files under
+`outputs/results/`.
 
 ## Final Designed Models
 
